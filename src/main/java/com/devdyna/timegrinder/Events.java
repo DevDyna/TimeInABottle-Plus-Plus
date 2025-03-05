@@ -60,8 +60,7 @@ public class Events {
     }
 
     public void tryAddTime(Level level, Player player, int value) {
-        // if (LevelUtil.getRandomValue(1000, level) <= 1000)
-        if (LevelUtil.chance(25, level))
+        if (LevelUtil.getRandomValue(1000, level) <= 1000)
             for (ITiabItemSearch handler : ICommonTimeInABottleAPI.COMMON_API.get().getSearchHandlers()) {
                 ItemStack item = handler.findItem(player);
                 if (item != null && item.getItem() == Registration.TIAB_ITEM.get()) {
