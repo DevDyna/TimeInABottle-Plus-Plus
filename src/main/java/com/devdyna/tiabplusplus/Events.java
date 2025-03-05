@@ -1,4 +1,4 @@
-package com.devdyna.timegrinder;
+package com.devdyna.tiabplusplus;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.mangorage.tiab.common.core.StoredTimeComponent;
 import org.mangorage.tiab.common.misc.CommonHelper;
 import org.mangorage.tiab.neoforge.core.Registration;
 
-import com.devdyna.timegrinder.utils.LevelUtil;
+import com.devdyna.tiabplusplus.utils.LevelUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
