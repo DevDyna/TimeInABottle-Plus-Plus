@@ -9,6 +9,7 @@ import org.mangorage.tiab.common.misc.CommonHelper;
 import org.mangorage.tiab.neoforge.core.Registration;
 
 import com.devdyna.tiabplusplus.Main;
+import com.devdyna.tiabplusplus.utils.LevelUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;

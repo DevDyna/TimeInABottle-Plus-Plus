@@ -49,6 +49,14 @@ public class Config {
             public static final ModConfigSpec.BooleanValue EVENT_RightClickItem = builder
             .comment("This event could generate time")
             .define("status",true);
+
+            public static final ModConfigSpec.IntValue MIN_VALUE_TIME = builder
+            .comment("Min value of ticks of rewarding")
+            .defineInRange("min", 1000, 1, Integer.MAX_VALUE-1);
+
+            public static final ModConfigSpec.IntValue MAX_VALUE_TIME = builder
+            .comment("Max value of ticks of rewarding")
+            .defineInRange("max", 10000, 2, Integer.MAX_VALUE);
             
 
             public static final ModConfigSpec configBuilder = builder.build();

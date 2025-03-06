@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.devdyna.tiabplusplus.Events;
 import com.devdyna.tiabplusplus.Main;
+import com.devdyna.tiabplusplus.utils.LevelUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;

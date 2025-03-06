@@ -8,7 +8,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 public class CreativeTab {
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == Registration.TIAB_CREATIVE_TAB.getKey())
-            Items.zItems.getEntries().forEach(e -> {
+            Material.zItems.getEntries().forEach(e -> {
                 event.accept((Item) e.get());
             });
 

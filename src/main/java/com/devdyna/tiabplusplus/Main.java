@@ -17,7 +17,7 @@ public class Main {
         //config
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.configBuilder);
         //item reg
-        Items.register(modEventBus);
+        Material.register(modEventBus);
         //events
         NeoForge.EVENT_BUS.register(new com.devdyna.tiabplusplus.Events());
         //tab reg
