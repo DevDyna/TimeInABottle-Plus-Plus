@@ -1,4 +1,4 @@
-package com.devdyna.tiabplusplus.utils;
+package com.devdyna.tiabplusplus.core;
 
 import java.util.List;
 

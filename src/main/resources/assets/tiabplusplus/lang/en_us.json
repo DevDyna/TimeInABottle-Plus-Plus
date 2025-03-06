@@ -1,0 +1,7 @@
+{
+    "item.tiabplusplus.plus":"§aIncreaser",
+    "item.tiabplusplus.less":"§cDecreaser",
+    "tip.item.tiabplusplus.plus":"Increase total time stored",
+    "tip.item.tiabplusplus.less":"Decrease total time stored",
+    "tip.tiabplusplus.missing": "Missing Time in a Bottle"
+}
