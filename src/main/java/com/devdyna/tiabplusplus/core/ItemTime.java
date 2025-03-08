@@ -32,9 +32,21 @@ public class ItemTime extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        if(usedHand.equals(InteractionHand.MAIN_HAND))
-        TimeWork.verifyTIAB(level, player,
-                LevelUtil.getRandomValue(Events.MIN, Events.MAX, level) * (state ? 1 : -1));
+        if (usedHand.equals(InteractionHand.MAIN_HAND))
+            TimeWork.verifyTIAB(level, player,
+                    LevelUtil.getRandomValue(Config.MIN_VALUE_TIME.getAsInt() <= Config.MAX_VALUE_TIME
+                            .getAsInt()
+                                    ? Config.MIN_VALUE_TIME
+                                            .getAsInt()
+                                    : Config.MAX_VALUE_TIME
+                                            .getAsInt(),
+                            Config.MIN_VALUE_TIME.getAsInt() >= Config.MAX_VALUE_TIME
+                                    .getAsInt()
+                                            ? Config.MIN_VALUE_TIME
+                                                    .getAsInt()
+                                            : Config.MAX_VALUE_TIME
+                                                    .getAsInt(),
+                            level) * (state ? 1 : -1));
         return InteractionResultHolder.pass(player.getItemInHand(usedHand));
 
     }
