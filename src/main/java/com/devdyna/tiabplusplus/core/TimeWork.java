@@ -8,6 +8,7 @@ import org.mangorage.tiab.common.core.StoredTimeComponent;
 import org.mangorage.tiab.common.misc.CommonHelper;
 import org.mangorage.tiab.neoforge.core.Registration;
 
+import com.devdyna.tiabplusplus.Config;
 import com.devdyna.tiabplusplus.Main;
 import com.devdyna.tiabplusplus.utils.LevelUtil;
 
@@ -22,6 +23,8 @@ import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.level.Level;
 
 public class TimeWork {
+
+        private static long click = 0;
 
         public static boolean addTime(Level level, Player player, int value) {
                 for (ITiabItemSearch handler : ICommonTimeInABottleAPI.COMMON_API.get().getSearchHandlers()) {
@@ -52,8 +55,8 @@ public class TimeWork {
                                                                         CommonHelper.getStoredTimeTranslated(item),
                                                                         CommonHelper.getTotalTimeTranslated(item))));
                                 if (!level.isClientSide())
-                                        outputSelect(
-                                                        Component.literal(Text.convertTicks(value) + " Seconds")
+                                        Rendering.outputSelect(
+                                                        Component.literal(Rendering.convertTicks(value) + " Seconds")
                                                                         .withStyle(value < 0 ? ChatFormatting.RED
                                                                                         : ChatFormatting.GREEN),
                                                         player,
@@ -72,6 +75,24 @@ public class TimeWork {
         }
 
         public static void tryAddTime(Level level, Player player, int value) {
+                click = level.getLevelData().getGameTime();
+
+                if (level != null && !level.isClientSide && level.getLevelData().getGameTime() - click < 4) {
+                        if (Config.SPAM_WARNING.getAsBoolean())
+                                Rendering.renderToast(
+                                                Component.translatable("tip." + Main.MODID + ".toofast")
+                                                                .withStyle(ChatFormatting.BLUE));
+                        return;
+                }
+
+                if (Config.CHANCE_TIAB.getAsInt() < 100) {
+                        if (Config.CHANCE_WARNING.getAsBoolean())
+                                Rendering.renderToast(
+                                                Component.translatable("tip." + Main.MODID + ".highchance")
+                                                                .withStyle(ChatFormatting.BLUE));
+                        return;
+                }
+
                 if (level.random.nextInt(Config.CHANCE_TIAB.getAsInt()) == 0)
                         verifyTIAB(level, player, value);
 
@@ -85,12 +106,4 @@ public class TimeWork {
 
         }
 
-        public static void outputSelect(Component text, Player player, Level level) {
-                if (Config.SHOW_ACTION.get())
-                        player.displayClientMessage(text, true);
-                if (Config.SHOW_CHAT.get())
-                        player.displayClientMessage(text, false);
-                if (Config.SHOW_TOAST.get())
-                        Rendering.renderToast(text);
-        }
 }
