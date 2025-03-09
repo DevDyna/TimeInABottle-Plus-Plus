@@ -1,7 +1,5 @@
 package com.devdyna.tiabplusplus;
 
-import com.devdyna.tiabplusplus.core.Config;
-
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
