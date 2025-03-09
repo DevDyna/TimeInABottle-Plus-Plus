@@ -3,5 +3,7 @@
     "item.tiabplusplus.less":"§cDecreaser",
     "tip.item.tiabplusplus.plus":"Increase total time stored",
     "tip.item.tiabplusplus.less":"Decrease total time stored",
-    "tip.tiabplusplus.missing": "Missing Time in a Bottle"
+    "tip.tiabplusplus.missing": "Missing Time in a Bottle",
+    "tip.tiabplusplus.toofast": "Clicking too fast!",
+    "tip.tiabplusplus.highchance": "Unbalanced chance!"
 }
