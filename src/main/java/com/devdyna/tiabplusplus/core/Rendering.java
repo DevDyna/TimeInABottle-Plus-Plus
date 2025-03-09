@@ -2,15 +2,24 @@ package com.devdyna.tiabplusplus.core;
 
 import org.mangorage.tiab.neoforge.core.Registration;
 
+import com.devdyna.tiabplusplus.Config;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.components.toasts.ToastComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class Rendering {
+
+    public static String convertTicks(int ticks) {
+        return String.format((ticks < 0 ? "-" : "+") + "%02d:%02d", (Math.abs(ticks) / 20) / 60,
+                (Math.abs(ticks) / 20) % 60);
+    }
 
 
     public static void renderToast(Component text) {
@@ -29,5 +38,15 @@ public class Rendering {
             }
         });
     }
+
+
+        public static void outputSelect(Component text, Player player, Level level) {
+                if (Config.SHOW_ACTION.get())
+                        player.displayClientMessage(text, true);
+                if (Config.SHOW_CHAT.get())
+                        player.displayClientMessage(text, false);
+                if (Config.SHOW_TOAST.get())
+                        renderToast(text);
+        }
 
 }
