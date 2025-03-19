@@ -1,5 +1,7 @@
 package com.devdyna.tiabplusplus;
 
+import com.devdyna.tiabplusplus.core.Events;
+
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -17,7 +19,7 @@ public class Main {
         //item reg
         Material.register(modEventBus);
         //events
-        NeoForge.EVENT_BUS.register(new com.devdyna.tiabplusplus.Events());
+        NeoForge.EVENT_BUS.register(new Events());
         //tab reg
         modEventBus.addListener(CreativeTab::addCreative);
     }
