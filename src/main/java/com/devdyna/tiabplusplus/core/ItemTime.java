@@ -2,6 +2,8 @@ package com.devdyna.tiabplusplus.core;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.devdyna.tiabplusplus.Config;
 import com.devdyna.tiabplusplus.Main;
 import net.minecraft.network.chat.Component;
@@ -33,20 +35,19 @@ public class ItemTime extends Item {
         if (usedHand.equals(InteractionHand.MAIN_HAND))
             TimeProcess.AddTimeByItem(level, player, lib.randomTimeValue(level) * (state ? 1 : -1));
 
-        if (Config.CONSUME_ITEM.getAsBoolean() && !player.isCreative())
+        if (Config.CONSUME_ITEM.get() && !player.isCreative())
             player.getItemInHand(usedHand).shrink(1);
 
         return InteractionResultHolder.pass(player.getItemInHand(usedHand));
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents,
-            TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
 
         tooltipComponents.add(Component.translatable(
                 "tip.item." + Main.MODID + "." + (state ? "plus" : "less")));
 
-        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
     }
 
 }

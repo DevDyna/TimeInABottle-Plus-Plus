@@ -24,7 +24,7 @@ public class Result {
         // }
 
         public static void unsafeChance(Level level){
-                if (Config.CHANCE_WARNING.getAsBoolean())
+                if (Config.CHANCE_WARNING.get())
                 Rendering.renderToast(
                                 Component.translatable("tip." + Main.MODID + ".highchance")
                                                 .withStyle(ChatFormatting.BLUE));

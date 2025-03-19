@@ -1,21 +1,15 @@
 package com.devdyna.tiabplusplus.core;
 
-import java.util.List;
-
-import org.mangorage.tiab.common.api.ICommonTimeInABottleAPI;
-import org.mangorage.tiab.common.core.StoredTimeComponent;
-import org.mangorage.tiab.common.misc.CommonHelper;
 import com.devdyna.tiabplusplus.Config;
 import com.devdyna.tiabplusplus.utils.LevelUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.level.Level;
+
 
 public class TimeProcess {
 
@@ -30,7 +24,7 @@ public class TimeProcess {
                         return;
 
                 // show a warning about low chance
-                if (Config.CHANCE_TIAB.getAsInt() < 100) {
+                if (Config.CHANCE_TIAB.get() < 100) {
                         Result.unsafeChance(level);
                 }
 
@@ -40,17 +34,17 @@ public class TimeProcess {
                         return;
                 }
 
-                if (canBeSpammed && Config.SAFE_CLICK.getAsBoolean()) {
+                if (canBeSpammed && Config.SAFE_CLICK.get()) {
 
                         if (level.isClientSide)
                                 return;
 
                         time = level.getLevelData().getGameTime() - click;
 
-                        if (time < Config.SAFE_TICK_DELAY.getAsInt()) {
+                        if (time < Config.SAFE_TICK_DELAY.get()) {
                                 return;
                         } else {
-                                if (level.random.nextInt(Config.CHANCE_TIAB.getAsInt()) == 0) {
+                                if (level.random.nextInt(Config.CHANCE_TIAB.get()) == 0) {
                                         unsafeAddTime(level, player, value);
                                 }
                         }
@@ -58,7 +52,7 @@ public class TimeProcess {
                         click = level.getLevelData().getGameTime();
 
                 } else {
-                        if (level.random.nextInt(Config.CHANCE_TIAB.getAsInt()) == 0) {
+                        if (level.random.nextInt(Config.CHANCE_TIAB.get()) == 0) {
                                 unsafeAddTime(level, player, value);
                         }
                 }
@@ -76,15 +70,7 @@ public class TimeProcess {
                 if (!level.isClientSide()) {
                         ItemStack item = lib.getTIAB(player);
                         // add value of time to TIAB
-                        CommonHelper.modify(item, ICommonTimeInABottleAPI.COMMON_API.get()
-                                        .getRegistration().getStoredTime(),
-                                        () -> new StoredTimeComponent(0, 0),
-                                        old -> lib.unckeckedAdd(old, value));
-                        // update lore item
-                        item.set(DataComponents.LORE, new ItemLore(
-                                        List.of(
-                                                        CommonHelper.getStoredTimeTranslated(item),
-                                                        CommonHelper.getTotalTimeTranslated(item))));
+                        lib.unckeckedAdd(item, value);
                         // select output to show
                         Rendering.outputSelect(
                                         Component.literal(Rendering.convertTicks(value) + " Seconds")
@@ -95,8 +81,8 @@ public class TimeProcess {
 
                 }
 
-                if (Config.PLAY_SOUND.getAsBoolean())
-                        level.playLocalSound(player, SoundEvents.PLAYER_LEVELUP, SoundSource.AMBIENT,
+                if (Config.PLAY_SOUND.get())
+                        level.playSound(player, player.getOnPos(), SoundEvents.PLAYER_LEVELUP, SoundSource.AMBIENT,
                                         10,
                                         0.1f * LevelUtil.getRandomValue(9, level));
         }

@@ -1,33 +1,28 @@
 package com.devdyna.tiabplusplus.core;
 
-import org.mangorage.tiab.common.api.ICommonTimeInABottleAPI;
-import org.mangorage.tiab.common.api.ITiabItemSearch;
-import org.mangorage.tiab.common.api.impl.IStoredTimeComponent;
-import org.mangorage.tiab.common.core.StoredTimeComponent;
-import org.mangorage.tiab.common.misc.CommonHelper;
-import org.mangorage.tiab.neoforge.core.Registration;
-
 import com.devdyna.tiabplusplus.Config;
 import com.devdyna.tiabplusplus.utils.LevelUtil;
-
+import com.haoict.tiab.common.config.NBTKeys;
+import com.haoict.tiab.common.config.TiabConfig;
+import com.haoict.tiab.common.core.ItemRegistry;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class lib {
-    public static int randomTimeValue(Level level) {
-                return LevelUtil.getRandomValue(Config.MIN_VALUE_TIME.getAsInt() <= Config.MAX_VALUE_TIME
-                                .getAsInt()
+        public static int randomTimeValue(Level level) {
+                return LevelUtil.getRandomValue(Config.MIN_VALUE_TIME.get() <= Config.MAX_VALUE_TIME
+                                .get()
                                                 ? Config.MIN_VALUE_TIME
-                                                                .getAsInt()
+                                                                .get()
                                                 : Config.MAX_VALUE_TIME
-                                                                .getAsInt(),
-                                Config.MIN_VALUE_TIME.getAsInt() >= Config.MAX_VALUE_TIME
-                                                .getAsInt()
+                                                                .get(),
+                                Config.MIN_VALUE_TIME.get() >= Config.MAX_VALUE_TIME
+                                                .get()
                                                                 ? Config.MIN_VALUE_TIME
-                                                                                .getAsInt()
+                                                                                .get()
                                                                 : Config.MAX_VALUE_TIME
-                                                                                .getAsInt(),
+                                                                                .get(),
                                 level);
         }
 
@@ -36,28 +31,24 @@ public class lib {
         }
 
         public static ItemStack getTIAB(Player player) {
-                for (ITiabItemSearch handler : ICommonTimeInABottleAPI.COMMON_API.get().getSearchHandlers()) {
-                        ItemStack item = handler.findItem(player);
-                        if (item != null && item.getItem() == Registration.TIAB_ITEM.get()) {
+                for (ItemStack item : player.getInventory().items) {
+                        if (item != null && item.getItem() == ItemRegistry.timeInABottleItem.get()) {
                                 return item;
                         }
                 }
-                                return null;
+                return null;
         }
 
-        public static IStoredTimeComponent unckeckedAdd(IStoredTimeComponent old, int value) {
-                return CommonHelper
-                                .isPositive(old.stored() + value) &&
-                                CommonHelper.isPositive(
-                                                old.total() + value)
-                                                                ? new StoredTimeComponent(
-                                                                                Math.min(old.stored()
-                                                                                                + value,
-                                                                                                ICommonTimeInABottleAPI.COMMON_API
-                                                                                                                .get()
-                                                                                                                .getConfig()
-                                                                                                                .MAX_STORED_TIME()),
-                                                                                old.total() + value)
-                                                                : old;
+        public static void unckeckedAdd(ItemStack stack, int value) {
+                int old_accumulated = stack.getOrCreateTag().getInt(NBTKeys.TOTAL_ACCUMULATED_TIME);
+                int old_stored = stack.getOrCreateTag().getInt(NBTKeys.STORED_TIME);
+
+                int accumulated = old_accumulated + Math.min(value, TiabConfig.COMMON.maxStoredTime.get());
+                int stored = old_stored + Math.min(value, TiabConfig.COMMON.maxStoredTime.get());
+                stack.getOrCreateTag().putInt(NBTKeys.TOTAL_ACCUMULATED_TIME,
+                                accumulated > 0 ? Math.min(value, TiabConfig.COMMON.maxStoredTime.get())
+                                                : old_accumulated);
+                stack.getOrCreateTag().putInt(NBTKeys.STORED_TIME,
+                                stored > 0 ? Math.min(value, TiabConfig.COMMON.maxStoredTime.get()) : old_stored);
         }
 }
